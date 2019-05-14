@@ -17,7 +17,7 @@
 		<file plugin="lessghsvs">lessghsvs.php</file>
 		<folder>lessc</folder>
 		<folder>language</folder>
-		<folder>LICENSE.txt</folder>
+		<file>LICENSE.txt</file>
 	</files>
 
 	<config>
