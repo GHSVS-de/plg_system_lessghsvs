@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_LESSGHSVS</name>
+	<author>Andreas Tasch; edit ghsvs.de</author>
+	<creationDate>2015-11-08</creationDate>
+	<copyright>(C) 2012-2015 Andreas Tasch; edit: ghsvs.de 2015-2019</copyright>
+	<license>GNU General Public License v3; see LICENSE.txt</license>
+	<authorEmail></authorEmail>
+	<authorUrl>www.attec.at; edit: ghsvs.de</authorUrl>
+	<version>2019.08.08</version>
+<versionHistory>
+2019.05.12: relaunch-bs3.ghsvs.de. Komplett überarbeitet. Alles raus was nicht nötig.
+</versionHistory>
+
+	<description>PLG_SYSTEM_LESSGHSVS_DESC</description>
+	<files>
+		<filename plugin="lessghsvs">lessghsvs.php</filename>
+		<folder>Field</folder>
+		<folder>lessc</folder>
+		<folder>language</folder>
+		<filename>LICENSE.txt</filename>
+	</files>
+
+	<config>
+		<fields name="params" addfieldpath="plugins/system/lessghsvs/Field">
+			<fieldset name="basic">
+
+				<field name="mode" type="list"
+					description="PLG_SYSTEM_LESS_FIELD_MODE_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_MODE_LABEL"
+					default="-1"
+					filter="integer">
+						<option value="-1">Only load lessc (frontend)</option>
+						<option value="0">PLG_SYSTEM_LESS_FIELD_MODE_FRONTEND</option>
+				</field>
+
+				<field name="templates" type="Templatesghsvs" multiple="true"
+					description=""
+					label="Aktiv in Templates"
+					filter="string"
+					showon="mode:0">
+				</field>
+
+				<field name="sitespacer" type="spacer" class="text"
+					label="PLG_SYSTEM_LESS_SITESPACER"
+					showon="mode:0" />
+					
+				<field name="lessfile" type="text"
+					description="PLG_SYSTEM_LESS_FIELD_LESSFILE_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_LESSFILE_LABEL"
+					default="less/template-blocked.less"
+					showon="mode:0" />
+
+				<field name="cssfile" type="text"
+					description="PLG_SYSTEM_LESS_FIELD_CSSFILE_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_CSSFILE_LABEL"
+					default="css/template-blocked.css"
+					showon="mode:0"
+				/>
+
+				<field type="spacer" name="lessspacer" class="text"
+					label="PLG_SYSTEM_LESS_LESSSPACER" />
+
+				<field name="sitelessc" type="list" 
+					default="lessphp-1.7.0.9-bugfixedGhsvs" 
+					label="PLG_SYSTEM_LESS_FIELD_SITELESSC_LABEL"
+					description="PLG_SYSTEM_LESS_FIELD_SITELESSC_DESC">
+						<option value="lessphp-1.7.0.9-bugfixedGhsvs">lessphp-1.7.0.9-bugfixedGhsvs</option>
+				</field>
+
+				<field name="less_force" type="list"
+					description="PLG_SYSTEM_LESS_FIELD_FORCE_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_FORCE_LABEL"
+					default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="less_comments" type="list"
+					description="PLG_SYSTEM_LESS_FIELD_COMMENTS_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_COMMENTS_LABEL"
+					default="1" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="less_compress" type="list"
+					description="PLG_SYSTEM_LESS_FIELD_COMPRESSION_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_COMPRESSION_LABEL"
+					default="0" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+				<field name="less_relativeUrls" type="list"
+					description="PLG_SYSTEM_LESS_FIELD_RELATIVEURLS_DESC"
+					label="PLG_SYSTEM_LESS_FIELD_RELATIVEURLS_LABEL"
+					default="1" filter="integer">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>
