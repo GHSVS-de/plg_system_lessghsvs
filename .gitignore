@@ -1,8 +1,28 @@
-/node_modules/
+node_modules/
 .DS_Store
 _notes/
 __done/
+package/
 log.txt
 prepros.config
 prepros-6.config
+Description-Draft.txt
+structured-data.txt
+*.zip
+__AUFPASSEN Neuer Updateserver/
+__AUFPASSEN Version seit 2020-03/
+__AUFPASSEN Neuer Updateserver bs3ghsvs2020/
+_______SCHAU-DIR-DAS-AN
+vendor/bin/
+vendor/matthiasmullie/minify/bin
+src/vendor/bin/
+src/vendor/matthiasmullie/minify/bin
 
+.vscode
+
+!/dist/**
+/dist/*.xml
+/dist/*.txt
+/dist/*.md
+_composer/vendor
+dist copy
