@@ -18,6 +18,7 @@
 		<folder>Field</folder>
 		<folder>lessc</folder>
 		<folder>language</folder>
+		<folder>vendor</folder>
 		<filename>LICENSE.txt</filename>
 	</files>
 
@@ -44,7 +45,7 @@
 				<field name="sitespacer" type="spacer" class="text"
 					label="PLG_SYSTEM_LESS_SITESPACER"
 					showon="mode:0" />
-					
+
 				<field name="lessfile" type="text"
 					description="PLG_SYSTEM_LESS_FIELD_LESSFILE_DESC"
 					label="PLG_SYSTEM_LESS_FIELD_LESSFILE_LABEL"
@@ -61,8 +62,8 @@
 				<field type="spacer" name="lessspacer" class="text"
 					label="PLG_SYSTEM_LESS_LESSSPACER" />
 
-				<field name="sitelessc" type="list" 
-					default="lessphp-1.7.0.9-bugfixedGhsvs" 
+				<field name="sitelessc" type="list"
+					default="lessphp-1.7.0.9-bugfixedGhsvs"
 					label="PLG_SYSTEM_LESS_FIELD_SITELESSC_LABEL"
 					description="PLG_SYSTEM_LESS_FIELD_SITELESSC_DESC">
 						<option value="lessphp-1.7.0.9-bugfixedGhsvs">lessphp-1.7.0.9-bugfixedGhsvs</option>
@@ -89,7 +90,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 				<field name="less_relativeUrls" type="list"
 					description="PLG_SYSTEM_LESS_FIELD_RELATIVEURLS_DESC"
 					label="PLG_SYSTEM_LESS_FIELD_RELATIVEURLS_LABEL"
@@ -97,7 +98,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 			</fieldset>
 		</fields>
 	</config>
