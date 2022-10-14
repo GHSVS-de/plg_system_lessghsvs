@@ -42,20 +42,18 @@
 					showon="mode:0">
 				</field>
 
-				<field name="sitespacer" type="spacer" class="text"
-					label="PLG_SYSTEM_LESS_SITESPACER"
-					showon="mode:0" />
-
-				<field name="lessfile" type="text"
+				<field name="lessfile" type="textarea" filter="trim"
 					description="PLG_SYSTEM_LESS_FIELD_LESSFILE_DESC"
+					hint="Example:\nless/template.less\nless/overridesGhsvs.less"
 					label="PLG_SYSTEM_LESS_FIELD_LESSFILE_LABEL"
-					default="less/template-blocked.less"
+					default=""
 					showon="mode:0" />
 
-				<field name="cssfile" type="text"
+				<field name="cssfile" type="textarea" filter="trim"
 					description="PLG_SYSTEM_LESS_FIELD_CSSFILE_DESC"
+					hint="Example:\ncss/template.css\ncss/overridesGhsvs.css"
 					label="PLG_SYSTEM_LESS_FIELD_CSSFILE_LABEL"
-					default="css/template-blocked.css"
+					default=""
 					showon="mode:0"
 				/>
 
@@ -99,6 +97,11 @@
 					<option value="1">JYES</option>
 				</field>
 
+				<field name="gzFiles" type="list" default="1" filter="integer"
+					label="PLG_SYSTEM_LESS_GZFILES">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

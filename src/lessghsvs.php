@@ -6,21 +6,20 @@
  * @copyright (C) 2012-2015 - Andreas Tasch and contributors
  * @license   GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  **/
- 
-/**
+
+/*
 GHSVS 2015-11-08
 Takeover and edit by www.ghsvs.de
 Because is more compatible with BS 3.
-Less compiler lessphp;
-See https://github.com/oyejorge/less.php/releases (archived meanwhile)
-See: https://github.com/Asenar/less.php
+Less compiler lessphp; see https://github.com/oyejorge/less.php/releases
 **/
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Filesystem\File;
+use Joomla\CMS\Filesystem\File;
+use MatthiasMullie\Minify;
 
 class plgSystemLessghsvs extends CMSPlugin
 {
@@ -28,7 +27,7 @@ class plgSystemLessghsvs extends CMSPlugin
 	 * @var $app
 	 */
 	protected $app;
-	
+
 	private $debugPrefix = '[DEBUG plg_system_lessghsvs] ';
 	private $execute = false;
 	private $debug = true;
@@ -42,14 +41,14 @@ class plgSystemLessghsvs extends CMSPlugin
 	{
 
 		parent::__construct($subject, $config);
-		
+
 		// Da irgendwelche Probleme mit Debugmodus, ggf. hier deaktivieren.
 		$this->debug = JDEBUG;
-		
+
 		### VORSICHT BEI DEM GANZEN SCHEISS. Das Plugin plg_system_bs3ghsvsv lädt lessc ebenfalls!!!
 		### Verwendet dabei die Einstellungen dieses Plugins hier.
 		### Darf also nicht verwundern, wenn class_exists hier ein true zurückliefert!
-		
+
 		if ($this->app->isClient('site'))
 		{
 			// check if lessc already exists but bypass autoloader
@@ -79,12 +78,12 @@ class plgSystemLessghsvs extends CMSPlugin
 					$this->debug ? $this->app->enqueueMessage($this->debugPrefix . "Could not load $name") : null;
 				}
 			}
-			
+
 			// Load lessc but don't do anything else.
 			if ((int) $this->params->get('mode', -1) === -1)
 			{
 				$this->execute = false;
-				$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Mode = -1. Stopping work after loading lessc.') : null;
+				$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Info: Mode = -1. Stopping work after loading lessc.') : null;
 			}
 
 			if (! is_array($this->params->get('templates')))
@@ -100,52 +99,91 @@ class plgSystemLessghsvs extends CMSPlugin
 		{
 			return;
 		}
-		
+
+		require __DIR__ . '/vendor/autoload.php';
+
 		$templateName = $this->app->getTemplate();
-		
-		if (!in_array($templateName, $this->params->get('templates')))
+
+		if (!in_array($templateName, $this->params->get('templates', [])))
 		{
 			$this->execute = false;
+			return;
+		}
+
+		if (!($lessFiles = trim($this->params->get('lessfile', ''))))
+		{
+			$this->execute = false;
+			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Error: No LESS file(s) entered.') : null;
+			return;
+		}
+
+		if (!($cssFiles = trim($this->params->get('cssfile', ''))))
+		{
+			$this->execute = false;
+			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Error: No CSS file(s) entered.') : null;
+			return;
+		}
+
+		$lessFiles = array_map("trim", explode("\n", str_replace("\r", '', $lessFiles)));
+		$cssFiles  = array_map("trim", explode("\n", str_replace("\r", '', $cssFiles)));
+
+		if (count($lessFiles) !== count($cssFiles))
+		{
+			$this->execute = false;
+			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Error: Number of entered LESS files differ from number of entered CSS files.') : null;
+			return;
+		}
+
+		if(count(array_filter($lessFiles)) !== count($lessFiles)
+			|| count(array_filter($cssFiles)) !== count($cssFiles))
+		{
+			$this->execute = false;
+			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Error: Empty lines in LESS or CSS field found. Not allowed.') : null;
 			return;
 		}
 
 		$templatePath = JPATH_SITE . '/templates/' . $templateName . '/';
-		$lessFile     = Path::clean(
-			$templatePath . $this->params->get('lessfile', 'less/template.less'),
-			'/'
-		);
-		
-		if (!is_readable($lessFile))
+
+		foreach ($lessFiles as $key => $lessFile)
 		{
-			$this->execute = false;
-			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Could not read less file.') : null;
-			return;
-		}
+			$lessFiles[$key] = Path::clean($templatePath . $lessFile, '/');
+			$cssFiles[$key] = Path::clean($templatePath . $cssFiles[$key], '/');
 
-		$cssFile = Path::clean(
-			$templatePath . $this->params->get('cssfile', 'css/template.css'),
-			'/'
-		);
-
-		if (is_readable($cssFile))
-		{
-			$bakFile = $cssFile . '.plg_system_lessghsvs.bak';
-
-			if (!file_exists($bakFile))
+			if (!is_readable($lessFiles[$key]))
 			{
-				File::copy($cssFile, $bakFile);
-				$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Created bak file of CSS file.') : null;
+				$this->execute = false;
+				$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Error: Could not read LESS file ' . $lessFile) : null;
+				return;
 			}
 		}
 
-		try
+		foreach ($lessFiles as $key => $lessFile)
 		{
-			$this->autoCompileLess($lessFile, $cssFile);
-			$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Starting autoCompileLess') : null;
-		}
-		catch (Exception $e)
-		{
-			echo 'plg_system_lessghsvs error: ' . $e->getMessage();
+			$cssFile = $cssFiles[$key];
+
+			if (is_readable($cssFile))
+			{
+				$bakFile = $cssFile . '.plg_system_lessghsvs.bak';
+
+				if (!file_exists($bakFile))
+				{
+					File::copy($cssFile, $bakFile);
+					$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Info: Created bak file of CSS file: ' . $bakFile) : null;
+				}
+			}
+
+			try
+			{
+				$this->debug ? $this->app->enqueueMessage($this->debugPrefix . 'Info: Starting autoCompileLess with LESS file to CSS file: ' . $lessFile . ' to '. $cssFile) : null;
+				$this->autoCompileLess($lessFile, $cssFile);
+			}
+			catch (Exception $e)
+			{
+				echo 'plg_system_lessghsvs error: ' . $e->getMessage();
+				$this->execute = false;
+				$this->app->enqueueMessage($this->debugPrefix . 'plg_system_lessghsvs error: ' . $e->getMessage());
+				return;
+			}
 		}
 	}
 
@@ -164,7 +202,14 @@ class plgSystemLessghsvs extends CMSPlugin
 			return;
 		}
 
-		$tmpPath = $this->app->get('tmp_path');
+		// noch nicht richtig implementiert. Siehe compress-Einstellung.
+		$ouputFileMin = explode('.', $outputFile);
+		$extension = 'min.' . $ouputFileMin[count($ouputFileMin) - 1];
+		array_pop($ouputFileMin);
+		$ouputFileMin[] = $extension;
+		$ouputFileMin = implode('.', $ouputFileMin);
+
+		$tmpPath = $this->app->get('tmp_path', JPATH_SITE . '/tmp');
 
 		$cacheFile = $tmpPath . '/' . $this->app->getTemplate() . "_" . basename($inputFile) . ".cache";
 
@@ -212,10 +257,11 @@ class plgSystemLessghsvs extends CMSPlugin
 			//$less->setFormatter("classic");
 			$less->setOption('compress', false);
 		}
-// GHSVS 2015-11-09
-// Sihe such lessphp-1.7.0.9-bugfixedGhsvs.php
-// Bspw. glyphicons.less schlägt fehl mit false,
-// wenn ich das aus Plugin-Media-Folder zulade.
+
+		// GHSVS 2015-11-09
+		// Sihe such lessphp-1.7.0.9-bugfixedGhsvs.php
+		// Bspw. glyphicons.less schlägt fehl mit false,
+		// wenn ich das aus Plugin-Media-Folder zulade.
 		if ($this->params->get('less_relativeUrls', 1))
 		{
 			$less->setOption('relativeUrls', true);
@@ -223,7 +269,7 @@ class plgSystemLessghsvs extends CMSPlugin
 		else
 		{
 			$less->setOption('relativeUrls', false);
-		}		
+		}
 
 		//compile cache file
 		$newCache = $less->cachedCompile($cache, $force);
@@ -232,6 +278,25 @@ class plgSystemLessghsvs extends CMSPlugin
 		{
 			file_put_contents($cacheFile, serialize($newCache));
 			file_put_contents($outputFile, $newCache['compiled']);
+
+			// Noch nicht richtig implementiert.
+			$minifier = new Minify\CSS();
+			$minifier->add($newCache['compiled']);
+
+			// Save minified CSS file.
+			$minifier->minify($ouputFileMin);
+
+			// Save gz of minified file.
+			$gzFilename = $ouputFileMin . '.gz';
+
+			if ($this->params->get('gzFiles', 1) === 1)
+			{
+				$minifier->gzip($gzFilename);
+			}
+			elseif (is_file($gzFilename))
+			{
+				unlink($gzFilename);
+			}
 		}
 	}
 
