@@ -1,0 +1,83 @@
+{
+	"name": "plg_system_lessghsvs",
+	"nameReal": "plg_system_lessghsvs",
+	"filename": "lessghsvs",
+	"version": "2022.10.15",
+	"versionCompare": "2022.10.15",
+	"versionSub": "lessphp-1.7.0.9-bugfixedGhsvs",
+	"update": {
+		"type": "plugin",
+		"folder": "system",
+		"client": "site",
+		"tag": "stable",
+		"targetplatform": [
+			"3.*",
+			"4.*"
+		],
+		"namespace": "Joomla\\Plugin\\System\\LessGhsvs"
+	},
+	"releaseTxt": {
+		"title": "Joomla system plugin LessGhsvs",
+		"requires": [],
+		"uses": [
+			"https://github.com/matthiasmullie/minify"
+		],
+		"language": [
+			"en-GB"
+		]
+	},
+	"changelog": {
+		"projecturl": "https://github.com/GHSVS-de/plg_system_lessghsvs",
+		"infosDE": "",
+		"infosEN": "https://github.com/GHSVS-de/plg_system_lessghsvs#readme",
+		"docsDE": "",
+		"docsEN": "",
+		"lastTests": [
+			"PHP 8.1",
+			"Joomla 4.2"
+		]
+	},
+	"minimumPhp": "7.4.0",
+	"maximumPhp": "8.9999.9999",
+	"minimumJoomla": "3.10.0",
+	"maximumJoomla": "4.9999.9999",
+	"allowDowngrades": "1",
+	"creationDate": "2015-11-08",
+	"licenseLong": "GNU General Public License version 3 or later; see LICENSE.txt.",
+	"copyright": "(C) 2015, G@HService Berlin Neukölln, Volkmar Volli Schlothauer.",
+	"author": {
+		"name": "G@HService Berlin Neukölln, Volkmar Volli Schlothauer",
+		"url": "https://ghsvs.de"
+	},
+	"contributors": [
+		{
+			"name": "G@HService Berlin Neukölln, Volkmar Volli Schlothauer",
+			"url": "https://ghsvs.de"
+		}
+	],
+	"bugs": "https://github.com/GHSVS-de/plg_system_lessghsvs/issues",
+	"homepage": "https://github.com/GHSVS-de/plg_system_lessghsvs#readme",
+	"keywords": [
+		"joomla",
+		"system plugin",
+		"lessphp"
+	],
+	"private": false,
+	"description": "Joomla system plugin. PHP LESS compiling to CSS.",
+	"license": "GPL-3.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GHSVS-de/plg_system_lessghsvs.git"
+	},
+	"scripts": {
+		"g-build": "node build.js",
+		"updateCheck": "npm outdated",
+		"update": "npm update --save-dev"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+	},
+	"peerDependencies": {},
+	"browserslist": []
+}
