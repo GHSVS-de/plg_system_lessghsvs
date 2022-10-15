@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_LESSGHSVS</name>
-	<author>Andreas Tasch; edit ghsvs.de</author>
-	<creationDate>2015-11-08</creationDate>
-	<copyright>(C) 2012-2015 Andreas Tasch; edit: ghsvs.de 2015-2019</copyright>
-	<license>GNU General Public License v3; see LICENSE.txt</license>
-	<authorEmail></authorEmail>
-	<authorUrl>www.attec.at; edit: ghsvs.de</authorUrl>
-	<version>2019.08.08</version>
-<versionHistory>
-2019.05.12: relaunch-bs3.ghsvs.de. Komplett überarbeitet. Alles raus was nicht nötig.
-</versionHistory>
+<extension type="{{type}}" group="{{folder}}" method="{{method}}">
+	<name>{{nameUpper}}</name>
+	<author>{{authorName}}</author>
+	<creationDate>{{creationDate}}</creationDate>
+	<copyright>{{copyright}}</copyright>
+	<license>{{licenseLong}}</license>
+	<authorUrl>{{authorUrl}}</authorUrl>
+	<version>{{version}}</version>
+ 	<description>{{nameUpper}}_XML_DESCRIPTION</description>
 
-	<description>PLG_SYSTEM_LESSGHSVS_DESC</description>
+	<updateservers>
+		<server type="extension" priority="1" name="{{nameUpper}}">{{xmlserver}}/{{name}}-update.xml</server>
+	</updateservers>
+
+	<changelogurl>{{xmlserver}}/{{name}}-changelog.xml</changelogurl>
+
+	<infourl>{{infourl}}?file={{name}}</infourl>
+
+	<scriptfile>installerScript.php</scriptfile>
+	<minimumPhp>{{minimumPhp}}</minimumPhp>
+	<maximumPhp>{{maximumPhp}}</maximumPhp>
+	<minimumJoomla>{{minimumJoomla}}</minimumJoomla>
+	<maximumJoomla>{{maximumJoomla}}</maximumJoomla>
+	<allowDowngrades>{{allowDowngrades}}</allowDowngrades>
+
 	<files>
-		<filename plugin="lessghsvs">lessghsvs.php</filename>
-		<folder>Field</folder>
-		<folder>lessc</folder>
-		<folder>language</folder>
-		<folder>vendor</folder>
+		<filename plugin="{{filename}}">{{filename}}.php</filename>
+		<filename>installerScript.php</filename>
 		<filename>LICENSE.txt</filename>
+		<folder>Field</folder>
+		<folder>language</folder>
+		<folder>lessc</folder>
+		<folder>vendor</folder>
 	</files>
-
+	{{namespace}}
 	<config>
 		<fields name="params" addfieldpath="plugins/system/lessghsvs/Field">
 			<fieldset name="basic">
+				<field type="hidden" default="1" name="{{filename}}plugin" />
 
 				<field name="mode" type="list"
 					description="PLG_SYSTEM_LESS_FIELD_MODE_DESC"
@@ -81,13 +94,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="less_compress" type="list"
+
+				<!-- <field name="less_compress" type="list"
 					description="PLG_SYSTEM_LESS_FIELD_COMPRESSION_DESC"
 					label="PLG_SYSTEM_LESS_FIELD_COMPRESSION_LABEL"
 					default="0" filter="integer">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
-				</field>
+				</field> -->
 
 				<field name="less_relativeUrls" type="list"
 					description="PLG_SYSTEM_LESS_FIELD_RELATIVEURLS_DESC"
@@ -102,6 +116,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field name="debug" type="list" default="0" filter="integer"
+					label="PLG_SYSTEM_LESS_DEBUG"
+					description="PLG_SYSTEM_LESS_DEBUG_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 			</fieldset>
 		</fields>
 	</config>
