@@ -7,7 +7,7 @@ Doesn't work with less files that contain JavaScript calculations (often seen in
 
 Used lessphp library has been bug fixed several times. Last workout was for PHP 8.1.
 
-Test it in our environment before you use it. I seldomly use it in production environmants.
+Test it in your environment before you use it. I seldomly use it in production environments.
 
 Creates:
 - unminified *.css
