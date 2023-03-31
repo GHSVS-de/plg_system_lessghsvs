@@ -144,7 +144,7 @@ class plgSystemLessghsvs extends CMSPlugin
 			$this->execute = false;
 
 			if ($this->debug === true) {
-				$this->log('No LESS file(s) entered in plugin settings.', Log:ERROR);
+				$this->log('No LESS file(s) entered in plugin settings.', Log::ERROR);
 			}
 
 			return;
@@ -155,7 +155,7 @@ class plgSystemLessghsvs extends CMSPlugin
 			$this->execute = false;
 
 			if ($this->debug === true) {
-				$this->log('No CSS file(s) entered in plugin settings.', Log:ERROR);
+				$this->log('No CSS file(s) entered in plugin settings.', Log::ERROR);
 			}
 
 			return;
@@ -169,7 +169,7 @@ class plgSystemLessghsvs extends CMSPlugin
 			$this->execute = false;
 
 			if ($this->debug === true) {
-				$this->log('Number of entered LESS files differ from number of entered CSS files in plugin settings.', Log:ERROR);
+				$this->log('Number of entered LESS files differ from number of entered CSS files in plugin settings.', Log::ERROR);
 			}
 
 			return;
@@ -181,7 +181,7 @@ class plgSystemLessghsvs extends CMSPlugin
 			$this->execute = false;
 
 			if ($this->debug === true) {
-				$this->log('Empty lines in LESS or CSS field found. Not allowed.', Log:ERROR);
+				$this->log('Empty lines in LESS or CSS field found. Not allowed.', Log::ERROR);
 			}
 
 			return;
@@ -199,7 +199,7 @@ class plgSystemLessghsvs extends CMSPlugin
 				$this->execute = false;
 
 				if ($this->debug === true) {
-					$this->log('Can not read LESS file ' . $lessFile, Log:ERROR);
+					$this->log('Can not read LESS file ' . $lessFile, Log::ERROR);
 				}
 
 				return;
