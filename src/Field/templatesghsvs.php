@@ -1,5 +1,5 @@
 <?php
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
@@ -9,7 +9,7 @@ FormHelper::loadFieldClass('list');
 class JFormFieldTemplatesghsvs extends JFormFieldList
 {
 	public $type = 'Templatesghsvs';
-  
+
 	public function getOptions()
 	{
 		$options = static::getTemplateOptions();
