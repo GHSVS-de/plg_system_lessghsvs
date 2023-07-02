@@ -13,8 +13,6 @@
 		<server type="extension" priority="1" name="{{nameUpper}}">{{xmlserver}}/{{name}}-update.xml</server>
 	</updateservers>
 
-	<changelogurl>{{xmlserver}}/{{name}}-changelog.xml</changelogurl>
-
 	<infourl>{{infourl}}?file={{name}}</infourl>
 
 	<scriptfile>installerScript.php</scriptfile>
