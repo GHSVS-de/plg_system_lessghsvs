@@ -1744,8 +1744,9 @@ class Less_Parser{
 		}
 
 		$this->expectChar(']');
-
-		return $this->NewObj3('Less_Tree_Attribute',array( $key, $op[0], $val));
+		
+		// Fix GHSVS. 2023-07. https://github.com/wikimedia/less.php/blob/master/lib/Less/Parser.php#L1868C3-L1868C78
+		return new Less_Tree_Attribute( $key, $op === null ? null : $op[0], $val );
 	}
 
 	//
