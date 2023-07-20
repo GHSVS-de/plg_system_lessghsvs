@@ -2,8 +2,8 @@
 	"name": "plg_system_lessghsvs",
 	"nameReal": "plg_system_lessghsvs",
 	"filename": "lessghsvs",
-	"version": "2023.06.29",
-	"versionCompare": "2022.10.15",
+	"version": "2023.07.20",
+	"versionCompare": "2023.06.29",
 	"versionSub": "lessphp-1.7.0.9-bugfixedGhsvs",
 	"update": {
 		"type": "plugin",
@@ -35,7 +35,7 @@
 		"lastTests": [
 			"PHP 8.1",
 			"PHP 7.4",
-			"Joomla 3.10.11",
+			"Joomla 3.10.12",
 			"Joomla 4.2"
 		]
 	},
