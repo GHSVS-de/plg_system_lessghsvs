@@ -18,7 +18,7 @@ Creates:
 
 -----------------------------------------------------
 
-# My personal build procedure (WSL 1, Debian, Win 10)
+# My personal build procedure (WSL 1 or 2, Debian, Win 10)
 
 **@since Build procedure uses local repo fork of https://github.com/GHSVS-de/buildKramGhsvs**
 
